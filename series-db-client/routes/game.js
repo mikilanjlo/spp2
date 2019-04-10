@@ -3,11 +3,12 @@ const fs = require('fs');
 class Game{
     costructor(){}
     AddPage(req, res){
-        res.render('add.ejs', {
+        res.render('MainHtml.ejs', {
             message: '',
             title: "Add Game",
             titleadd: "Add Game",
-            valuesNames: ["name","price","company_id"]
+            valuesNames: ["name","price","company_id"],
+            module: moduleChange
         });
     }
 
@@ -26,7 +27,7 @@ class Game{
             }
             if (result.length > 0) {
                 message = 'Game already exists';
-                res.render('add.ejs', {
+                res.render('MainHtml.ejs', {
                     message
                 });
             } else {
@@ -49,12 +50,13 @@ class Game{
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render('edit.ejs', {
+            res.render('MainHtml.ejs', {
                 title: "Edit  Game",
                 //game: result[0],
                 message: '',
                 titleadd: "Edit Game",
-                valuesNames: ["price"]
+                valuesNames: ["price"],
+                module: moduleChange
             });
         });
     }

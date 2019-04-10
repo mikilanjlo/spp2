@@ -29,14 +29,15 @@ module.exports = {
                 //}
                 var countResult =result.length;// result.count;
                 //pageData = new PageData("Welcome to GameShop | View Games",["id","name"],"Add Company",2,array);
-                res.render("index", {
+                res.render("MainHtml", {
 
                     title: "Welcome to GameShop | View Games",
                     titleadd: "Add Game",
                     countValues: countResult,
                     values:array,
                     valuesNames: ["id","name","Company Id","price $"],
-                    isEdit:true
+                    isEdit:true,
+                    module: moduleMain
 
             });
         });
@@ -58,14 +59,15 @@ module.exports = {
                 }
             //}
             var countResult =result.length;
-            res.render("index", {
+            res.render("MainHtml", {
 
                 title: "Welcome to GameShop | View Games",
                 titleadd: "Add Company",
                 countValues: countResult,
                 values:array,//getarray(),
                 valuesNames: ["id","name"],
-                isEdit:false
+                isEdit:false,
+                module: moduleMain
 
                 
             });
@@ -88,14 +90,15 @@ module.exports = {
                 }
             //}
             var countResult =result.length;
-            res.render("index", {
+            res.render("MainHtml", {
 
                 title: "Welcome to GameShop | View Games",
                 titleadd: "Add comment",
                 countValues: countResult,
                 values:array,//getarray(),
                 valuesNames: ["id","game id","content"],
-                isEdit:true
+                isEdit:true,
+                module: moduleMain
 
                 
             });

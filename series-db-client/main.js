@@ -99,6 +99,8 @@ app.get('/edit/:id',function(req, res){ m_object.EditPage(req,res);});
 app.post('/edit/:id', function(req, res){m_object.Edit(req, res);});
 
 global.db = db;
+global.moduleChange = "change";
+global.moduleMain= "main";
 
 
 

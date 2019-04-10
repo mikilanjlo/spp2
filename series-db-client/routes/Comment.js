@@ -3,11 +3,12 @@ const fs = require('fs');
 class Comment{
     costructor(){}
     AddPage(req, res){
-        res.render('add.ejs', {
+        res.render('MainHtml.ejs', {
             message: '',
             title: "Add Comment",
             titleadd: "Add Comment",
-            valuesNames: ["content","game_id"]
+            valuesNames: ["content","game_id"],
+            module: moduleChange
         });
     }
 
@@ -43,12 +44,13 @@ class Comment{
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render('edit.ejs', {
+            res.render('MainHtml.ejs', {
                 title: "Edit  Comment",
                 //game: result[0],
                 message: '',
                 titleadd: "Edit Comment",
-                valuesNames: ["content"]
+                valuesNames: ["content"],
+                module: moduleChange
             });
         });
     }

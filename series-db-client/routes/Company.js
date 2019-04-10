@@ -3,11 +3,12 @@ const fs = require('fs');
 class Company{
     costructor(){}
     AddPage(req, res){
-        res.render("add", {
+        res.render("MainHtml", {
             message: '',
             title: "Add Company",
             titleadd: "Add Company",
-            valuesNames: ["name"]
+            valuesNames: ["name"],
+            module: moduleChange
         });
     }
 
@@ -24,7 +25,7 @@ class Company{
             }
             if (result.length > 0) {
                 message = 'Company already exists';
-                res.render('add.ejs', {
+                res.render('MainHtml.ejs', {
                     message
                 });
             } else {
