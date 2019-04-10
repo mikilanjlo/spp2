@@ -15,6 +15,9 @@ const {getGamePage,getCompanyPage, getCommentsPage} = require('./routes/index');
  const Comment = require("./routes/Comment.js");
  var m_object = new Company();
 
+ const User = require("./routes/user.js");
+ var m_user = new User();
+
 // Some server info
 const port = 8080;
 
@@ -98,9 +101,15 @@ app.post('/add', function(req, res){m_object.Add(req, res);});
 app.get('/edit/:id',function(req, res){ m_object.EditPage(req,res);});
 app.post('/edit/:id', function(req, res){m_object.Edit(req, res);});
 
+app.get('/sign_in',function(req, res){ m_user.SignInPage(req,res);});
+app.post('/sign_in',function(req, res){ m_user.SignIn(req,res);});
+app.get('/sign_out',function(req, res){ m_user.SignOut(req,res);});
+
 global.db = db;
 global.moduleChange = "change";
 global.moduleMain= "main";
+global.moduleSign= "sign";
+global.userLog = null;
 
 
 
