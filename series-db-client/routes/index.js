@@ -1,6 +1,6 @@
 module.exports = {
     getGamePage: (req, res) => {
-        var sql = "SELECT * FROM game ORDER BY id"; 
+        var sql = "SELECT game.id, game.name, company.name  AS CompanyName, price FROM game  join company on Company = company.id ORDER BY game.id"; 
 
         // execute query
         db.query(sql, (err, result) => {
@@ -12,18 +12,7 @@ module.exports = {
                         array[i] = [];
                         array[i][0] = result[i].id;
                         array[i][1] =result[i].name;
-                        /*var companyName = "lala";
-                         let companyQuery = "SELECT * FROM  company WHERE id = '" + result[i].Company + "'";
-                         console.log("tyis " +companyQuery);
-                        db.query(companyQuery, (err2, resul) => {
-                            if (err2) {
-                                console.log("err");
-                                return res.status(500).send(err2);
-                            }
-                            console.log("norm "+ resul[i].name);
-                            companyName = resul[i].name;
-                        });*/
-                        array[i][2] =result[i].Company//companyName; //GetCompany(result[i].id);
+                        array[i][2] =result[i].CompanyName//companyName; //GetCompany(result[i].id);
                         array[i][3] =result[i].price;
                     }
                 //}
@@ -35,7 +24,7 @@ module.exports = {
                     titleadd: "Add Game",
                     countValues: countResult,
                     values:array,
-                    valuesNames: ["id","name","Company Id","price $"],
+                    valuesNames: ["id","name","Company","price $"],
                     isEdit:true,
                     module: moduleMain
 
@@ -74,7 +63,7 @@ module.exports = {
         });
     },
     getCommentsPage: (req, res) => {
-        var sql = "SELECT * FROM comment ORDER BY id"; 
+        var sql = "SELECT comment.id , game.name as gamename, name FROM comment join game on Game = game.id ORDER BY id"; 
 
         // execute query
         db.query(sql, (err, result) => {

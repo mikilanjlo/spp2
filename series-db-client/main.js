@@ -94,7 +94,16 @@ app.get('/Games', function(req, res){
 app.get('/Comments', function(req, res){
 		m_object = new Comment();
 		getCommentsPage(req, res);
+    });
+app.get('/:id', function(req, res){
+		m_object = new Company();
+		m_object.GetWithId(req,res);
+    });
+app.get('/Games:id', function(req, res){
+		m_object = new Game();
+		m_object.GetWithId(req,res);
 	});
+
 app.get('/add',function(req, res){ m_object.AddPage(req,res);});
 app.get('/delete/:id', function(req, res){m_object.Delete(req, res);});
 app.post('/add', function(req, res){m_object.Add(req, res);});

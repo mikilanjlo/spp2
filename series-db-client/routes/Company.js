@@ -54,6 +54,38 @@ class Company{
             
        
     }
+    GetWithId(req, res){
+        let companyId = req.params.id;
+        var sql = 'SELECT * FROM company WHERE id= "' + companyId + '"'; 
+
+        // execute query
+        db.query(sql, (err, result) => {
+            if (err) {
+                res.redirect('/');
+            }
+            //function getarray(){
+            var array = [];
+                for(var i = 0; i < result.length; i++){
+                    array[i] = [];
+                    array[i][0] = result[i].id;
+                    array[i][1] =result[i].name;
+                }
+            //}
+            var countResult =result.length;
+            res.render("MainHtml", {
+
+                title: "Welcome to GameShop | View Games",
+                titleadd: "Add Company",
+                countValues: countResult,
+                values:array,
+                valuesNames: ["id","name"],
+                isEdit:false,
+                module: moduleMain
+
+                
+            });
+        });
+    }
 };
 //let company = new Company();
 module.exports= Company;
