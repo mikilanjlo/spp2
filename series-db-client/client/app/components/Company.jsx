@@ -37,7 +37,7 @@ class Company extends React.Component {
         return(
             <div>
             <nav class="navbar navbar-light bg-light">
-                <a class="float-right" href="/add" title="add">{/*titleadd*/}</a>
+                <a class="float-right" href="/add" title="add">Add</a>
             </nav>
             <table class="table table-hovered">
             <thead class="thead-dark">
