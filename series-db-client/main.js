@@ -3,6 +3,8 @@ const mysql = require('mysql');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 var expressValidator = require('express-validator');
+const cors = require('cors');
+
 const fs = require('fs');
 
 var app = express();
@@ -40,6 +42,9 @@ const connectionLog = 'MySql database was connected.';
 
 
 app.use(fileUpload()); // configure fileupload
+app.use(cors());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 
 // Some information for UI
 const upCaseDataBase = databaseName[0].toUpperCase() + databaseName.slice(1);

@@ -18,7 +18,7 @@ module.exports = {
                 //}
                 var countResult =result.length;// result.count;
                 //pageData = new PageData("Welcome to GameShop | View Games",["id","name"],"Add Company",2,array);
-                res.render("MainHtml", {
+                res.json( {
 
                     title: "Welcome to GameShop | View Games",
                     titleadd: "Add Game",
@@ -48,7 +48,7 @@ module.exports = {
                 }
             //}
             var countResult =result.length;
-            res.render("MainHtml", {
+            res.json( {
 
                 title: "Welcome to GameShop | View Games",
                 titleadd: "Add Company",
@@ -63,7 +63,7 @@ module.exports = {
         });
     },
     getCommentsPage: (req, res) => {
-        var sql = "SELECT comment.id , game.name as gamename, name FROM comment join game on Game = game.id ORDER BY id"; 
+        var sql = "SELECT comment.id , game.name as gamename, comment.name FROM comment join game on Game = game.id ORDER BY comment.id"; 
 
         // execute query
         db.query(sql, (err, result) => {
@@ -74,12 +74,12 @@ module.exports = {
                 for(var i = 0; i < result.length; i++){
                     array[i] = [];
                     array[i][0] = result[i].id;
-                    array[i][1] =result[i].Game;
+                    array[i][1] =result[i].gamename;
                     array[i][2] =result[i].name;
                 }
             //}
             var countResult =result.length;
-            res.render("MainHtml", {
+            res.json( {
 
                 title: "Welcome to GameShop | View Games",
                 titleadd: "Add comment",

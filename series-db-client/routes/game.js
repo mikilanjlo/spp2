@@ -3,7 +3,7 @@ const fs = require('fs');
 class Game{
     costructor(){}
     AddPage(req, res){
-        res.render('MainHtml.ejs', {
+        res.json( {
             message: '',
             title: "Add Game",
             titleadd: "Add Game",
@@ -27,7 +27,7 @@ class Game{
             }
             if (result.length > 0) {
                 message = 'Game already exists';
-                res.render('MainHtml.ejs', {
+                res.json({
                     message
                 });
             } else {
@@ -50,7 +50,7 @@ class Game{
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render('MainHtml.ejs', {
+            res.json( {
                 title: "Edit  Game",
                 //game: result[0],
                 message: '',
@@ -108,7 +108,7 @@ class Game{
                 //}
                 var countResult =result.length;// result.count;
                 //pageData = new PageData("Welcome to GameShop | View Games",["id","name"],"Add Company",2,array);
-                res.render("MainHtml", {
+                res.json( {
 
                     title: "Welcome to GameShop | View Games",
                     titleadd: "Add Game",

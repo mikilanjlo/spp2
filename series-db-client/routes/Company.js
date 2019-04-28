@@ -3,7 +3,7 @@ const fs = require('fs');
 class Company{
     costructor(){}
     AddPage(req, res){
-        res.render("MainHtml", {
+        res.json({
             message: '',
             title: "Add Company",
             titleadd: "Add Company",
@@ -25,7 +25,7 @@ class Company{
             }
             if (result.length > 0) {
                 message = 'Company already exists';
-                res.render('MainHtml.ejs', {
+                res.json( {
                     message
                 });
             } else {
@@ -72,7 +72,7 @@ class Company{
                 }
             //}
             var countResult =result.length;
-            res.render("MainHtml", {
+            res.json( {
 
                 title: "Welcome to GameShop | View Games",
                 titleadd: "Add Company",

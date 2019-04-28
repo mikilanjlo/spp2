@@ -3,7 +3,7 @@ const fs = require('fs');
 class Comment{
     costructor(){}
     AddPage(req, res){
-        res.render('MainHtml.ejs', {
+        res.json( {
             message: '',
             title: "Add Comment",
             titleadd: "Add Comment",
@@ -44,7 +44,7 @@ class Comment{
             if (err) {
                 return res.status(500).send(err);
             }
-            res.render('MainHtml.ejs', {
+            res.json({
                 title: "Edit  Comment",
                 //game: result[0],
                 message: '',
@@ -81,6 +81,8 @@ class Comment{
             
        
     }
+
+    
 
 };
 module.exports= Comment;
