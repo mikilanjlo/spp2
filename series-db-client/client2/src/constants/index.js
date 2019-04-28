@@ -1,0 +1,1 @@
+export const RERENDER_HEADER = "RERENDER_HEADER";
