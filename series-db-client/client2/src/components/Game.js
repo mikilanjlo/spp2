@@ -38,7 +38,7 @@ class Game extends Component {
         return(
             <div>
             <nav class="navbar navbar-light bg-light">
-                <Link class="float-right"  to="/Games/add" title="add">Add {this.state.title}</Link>
+                <Link to="/Games/add" class="float-right"   title="add">Add {this.state.title}</Link>
             </nav>
             <table class="table table-hovered">
             <thead class="thead-dark">

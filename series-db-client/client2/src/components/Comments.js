@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
  
 class Comments extends Component {
@@ -37,7 +38,7 @@ class Comments extends Component {
         return(
             <div>
             <nav class="navbar navbar-light bg-light">
-                <a class="float-right" Link to="/Comments/add" title="add">Add {this.state.title}</a>
+                <Link class="float-right"  to="/Comments/add" title="add">Add {this.state.title}</Link>
             </nav>
             <table class="table table-hovered">
             <thead class="thead-dark">

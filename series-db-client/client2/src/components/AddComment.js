@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
  
 class AddComment extends Component {
@@ -8,6 +9,7 @@ class AddComment extends Component {
             message: "",
             Name:"",
             Game: 0,
+            created:false,
          }
          this.onChangeCommentName = this.onChangeCommentName.bind(this);
          this.onChangeCommentGame= this.onChangeCommentGame.bind(this);
@@ -16,7 +18,7 @@ class AddComment extends Component {
     
     componentDidMount(){
         console.log("entry");
-        axios.get('http://192.168.99.100:3000/add')
+        axios.get('http://192.168.99.100:3000/Comments/add')
           .then(response => {
             console.log("good");
             this.setState({ message: response.data.message ,
@@ -46,18 +48,21 @@ class AddComment extends Component {
         e.preventDefault();
 
         const obj = {
-            name: this.state.Name,
+            content: this.state.Name,
             game_id: this.state.Game,
         };
-
-        axios.post('http://192.168.99.100:3000/add', obj)
+        console.log(obj);
+        axios.post('http://192.168.99.100:3000/Comments/add', obj)
             .then((response) => {
+                
                 console.log(response.data)
                 this.statusCode = response.status
+                this.setState({ created:true ,
+                });
             })
             .then(response => {
                 console.log("good");
-                this.setState({ message: response.data.message ,
+                this.setState({ message: response.data.message ,created:false
                     });
                 
               })
@@ -69,6 +74,8 @@ class AddComment extends Component {
                
     render() {
         console.log("render");
+        if (this.state.created) {
+            return (<Redirect from='/Comments/add' to='/Comments' />)}
         return(
             <div>
             <nav class="navbar navbar-light bg-light">

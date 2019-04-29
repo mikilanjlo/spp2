@@ -25,11 +25,13 @@ class App extends Component {
           <Switch>
               <Route exact path='/' component={ Company }/>
               <Route path='/add' component={ AddCompany }/>
-              <Route  path='/Games' component={ Game }/>
               <Route  path='/Games/add' component={ AddGame }/>
+              <Route  path='/Games' component={ Game }/>
+              
               <Route  path='/Games/edit/:id' component={ EditGame }/>
-              <Route  path='/Comments' component={ Comments }/>
               <Route  path='/Comments/add' component={ AddComments }/>
+              <Route  path='/Comments' component={ Comments }/>
+              
               <Route  path='/Comments/edit/:id' component={ EditComments }/>
           </Switch>
         </div>

@@ -20,7 +20,7 @@ class AddGame extends Component {
     
     componentDidMount(){
         console.log("entry");
-        axios.get('http://192.168.99.100:3000/add')
+        axios.get('http://192.168.99.100:3000/Games/add')
           .then(response => {
             console.log("good");
             this.setState({ message: response.data.message ,
@@ -58,8 +58,8 @@ class AddGame extends Component {
             price: this.state.Price,
             company_id: this.state.Company,
         };
-
-        axios.post('http://192.168.99.100:3000/add', obj)
+        console.log(obj);
+        axios.post('http://192.168.99.100:3000/Games/add', obj)
             .then((response) => {
                 console.log(response.data)
                 this.statusCode = response.status
@@ -79,9 +79,9 @@ class AddGame extends Component {
 
                
     render() {
-        console.log("render");
+        console.log("render games add");
         if (this.state.created) {
-            return (<Redirect from='/add' to='/' />)}
+            return (<Redirect from='Games/add' to='/Games' />)}
         return(
             <div>
             <nav class="navbar navbar-light bg-light">

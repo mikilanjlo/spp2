@@ -87,6 +87,9 @@ app.use(expressValidator({
     };
   }
 }));
+let m_company = new Company();
+let m_game =  new Game();
+let m_comment = new Comment();
 
 app.get('/', function(req, res){
 		m_object = new Company();
@@ -109,15 +112,22 @@ app.get('/Games:id', function(req, res){
 		m_object.GetWithId(req,res);
 	});
 
-app.get('/Games/add',function(req, res){ m_object.AddPage(req,res);});
-app.get('/Comments/add',function(req, res){ m_object.AddPage(req,res);});
-app.get('/add',function(req, res){ m_object.AddPage(req,res);});
+app.get('/Games/add',function(req, res){ m_game.AddPage(req,res);});
+app.get('/Comments/add',function(req, res){ m_comment.AddPage(req,res);});
+app.get('/add',function(req, res){ m_company.AddPage(req,res);});
 app.get('/delete/:id', function(req, res){m_object.Delete(req, res);});
-app.post('/add', function(req, res){m_object.Add(req, res);});
-app.get('/Games/edit/:id',function(req, res){ m_object.EditPage(req,res);});
-app.get('/Comments/edit/:id',function(req, res){ m_object.EditPage(req,res);});
-app.get('/edit/:id',function(req, res){ m_object.EditPage(req,res);});
-app.post('/edit/:id', function(req, res){m_object.Edit(req, res);});
+
+app.post('/Games/add',function(req, res){ m_game.Add(req,res);});
+app.post('/Comments/add',function(req, res){ m_comment.Add(req,res);});
+app.post('/add',function(req, res){ m_company.Add(req,res);});
+
+app.get('/Games/edit/:id',function(req, res){ m_game.EditPage(req,res);});
+app.get('/Comments/edit/:id',function(req, res){ m_comment.EditPage(req,res);});
+app.get('/edit/:id',function(req, res){ m_company.EditPage(req,res);});
+
+app.post('/Games/edit/:id',function(req, res){ m_game.Edit(req,res);});
+app.post('/Comments/edit/:id',function(req, res){ m_comment.Edit(req,res);});
+app.post('/edit/:id',function(req, res){ m_company.Edit(req,res);});
 
 app.get('/sign_in',function(req, res){ m_user.SignInPage(req,res);});
 app.post('/sign_in',function(req, res){ m_user.SignIn(req,res);});
