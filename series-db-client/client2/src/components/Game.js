@@ -20,7 +20,7 @@ class Game extends Component {
 
     componentDidMount(){
         console.log("entry");
-        axios.get('http://localhost:3000/Games')
+        axios.get('http://192.168.99.100:3000/Games')
           .then(response => {
             console.log("good");
             this.setState({ values: response.data.values ,

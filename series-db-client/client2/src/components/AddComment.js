@@ -21,7 +21,7 @@ class AddComment extends Component {
 
     componentDidMount(){
         console.log("entry");
-        axios.get('http://localhost:3000/Comments/add')
+        axios.get('http://192.168.99.100:3000/Comments/add')
           .then(response => {
             console.log("good");
             this.setState({ message: response.data.message ,
@@ -63,7 +63,7 @@ class AddComment extends Component {
             game_id: this.state.Game,
         };
         console.log(obj);
-        axios.post('http://localhost:3000/Comments/add', obj)
+        axios.post('http://192.168.99.100:3000/Comments/add', obj)
             .then((response) => {
                 
                 console.log(response.data)

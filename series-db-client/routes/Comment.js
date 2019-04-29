@@ -18,14 +18,9 @@ class Comment{
         let name = req.body.content;
         let game_id= req.body.game_id;
 
-        let sql = "SELECT * FROM comment WHERE name = '" + name + "'";
 
-        db.query(sql, (err, result) => {
-            if (err) {
-                return res.status(500).send(err);
-            }
 
-                    let query = "INSERT INTO comment (name,company) VALUES ('" +
+                    let query = "INSERT INTO comment (name,Game) VALUES ('" +
                     name + "' , '" + game_id +"')";
                     db.query(query, (err, result) => {
                         if (err) {
@@ -34,7 +29,7 @@ class Comment{
                         res.redirect('/Comments');
                     });
                 
-        });
+
     }
 
     EditPage(req, res){
