@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
  
 class EditGame extends Component {
@@ -9,6 +10,7 @@ class EditGame extends Component {
             Name:"",
             Price: 0,
             Company: 0,
+            edited:false,
          }
          this.onChangeGameName = this.onChangeGameName.bind(this);
          this.onChangeGamePrice = this.onChangeGamePrice.bind(this);
@@ -60,6 +62,8 @@ class EditGame extends Component {
             .then((response) => {
                 console.log(response.data)
                 this.statusCode = response.status
+                this.setState({ edited:true ,
+                });
             })
             .then(response => {
                 console.log("good");
@@ -75,6 +79,8 @@ class EditGame extends Component {
                
     render() {
         console.log("render");
+        if (this.state.edited) {
+            return (<Redirect from='Games/edit' to='/Games' />)}
         return(
             <div>
             <nav class="navbar navbar-light bg-light">

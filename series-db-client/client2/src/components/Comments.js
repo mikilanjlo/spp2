@@ -62,9 +62,9 @@ class Comments extends Component {
                     }
 
                             <td>
-                                 <a href={"edit/" + value[0]} target="_blank" rel="noopener" class="btn btn-sm btn-success">Edit</a>
+                                 <Link to={"/Comments/edit/" + value[0]}  class="btn btn-sm btn-success">Edit</Link>
 
-                                <a href={"delete/" + value[0]} class="btn btn-sm btn-danger">Delete</a>
+                                 <Link to={"delete/Comments/" + value[0]} class="btn btn-sm btn-danger">Delete</Link>
                             </td>
                         
                     </tr>)

@@ -66,7 +66,7 @@ class Company extends Component {
                     }
 
                             <td>
-                                 
+                            <Link to={"delete/" + value[0]} class="btn btn-sm btn-danger">Delete</Link>
 
                                  
                             </td>

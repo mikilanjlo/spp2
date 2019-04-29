@@ -14,6 +14,8 @@ import EditGame from './components/EditGame';
 import Comments from './components/Comments';
 import AddComments from './components/AddComment';
 import EditComments from './components/EditComment';
+import Delete from './components/Delete'
+import DeleteCompany from './components/DeleteCompany'
 
 class App extends Component {
   render() {
@@ -25,14 +27,15 @@ class App extends Component {
           <Switch>
               <Route exact path='/' component={ Company }/>
               <Route path='/add' component={ AddCompany }/>
+              <Route  path='/Games/edit/:id' component={ EditGame }/>
               <Route  path='/Games/add' component={ AddGame }/>
               <Route  path='/Games' component={ Game }/>
               
-              <Route  path='/Games/edit/:id' component={ EditGame }/>
+              <Route  path='/Comments/edit/:id' component={ EditComments }/>
               <Route  path='/Comments/add' component={ AddComments }/>
               <Route  path='/Comments' component={ Comments }/>
-              
-              <Route  path='/Comments/edit/:id' component={ EditComments }/>
+              <Route  path='/delete/:name/:id' component={ Delete }/>
+              <Route  path='/delete/:id' component={ DeleteCompany }/>
           </Switch>
         </div>
       </Router>

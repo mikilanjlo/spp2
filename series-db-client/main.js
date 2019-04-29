@@ -115,7 +115,10 @@ app.get('/Games:id', function(req, res){
 app.get('/Games/add',function(req, res){ m_game.AddPage(req,res);});
 app.get('/Comments/add',function(req, res){ m_comment.AddPage(req,res);});
 app.get('/add',function(req, res){ m_company.AddPage(req,res);});
-app.get('/delete/:id', function(req, res){m_object.Delete(req, res);});
+
+app.get('/delete/:id', function(req, res){m_company.Delete(req, res);});
+app.get('/Games/delete/:id', function(req, res){m_game.Delete(req, res);});
+app.get('/Comments/delete/:id', function(req, res){m_comment.Delete(req, res);});
 
 app.post('/Games/add',function(req, res){ m_game.Add(req,res);});
 app.post('/Comments/add',function(req, res){ m_comment.Add(req,res);});
