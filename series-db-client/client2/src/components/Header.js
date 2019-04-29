@@ -63,7 +63,7 @@ class Header extends Component {
                
     render() {
         return(
-            <div class="navbar-brand">
+            <div>
             <div class="page-wrapper">
                 <nav class="navbar navbar-light bg-light">
                     <span class="navbar-brand mb-0 h1"><Link to="/">Company</Link></span>
