@@ -109,9 +109,13 @@ app.get('/Games:id', function(req, res){
 		m_object.GetWithId(req,res);
 	});
 
+app.get('/Games/add',function(req, res){ m_object.AddPage(req,res);});
+app.get('/Comments/add',function(req, res){ m_object.AddPage(req,res);});
 app.get('/add',function(req, res){ m_object.AddPage(req,res);});
 app.get('/delete/:id', function(req, res){m_object.Delete(req, res);});
 app.post('/add', function(req, res){m_object.Add(req, res);});
+app.get('/Games/edit/:id',function(req, res){ m_object.EditPage(req,res);});
+app.get('/Comments/edit/:id',function(req, res){ m_object.EditPage(req,res);});
 app.get('/edit/:id',function(req, res){ m_object.EditPage(req,res);});
 app.post('/edit/:id', function(req, res){m_object.Edit(req, res);});
 
