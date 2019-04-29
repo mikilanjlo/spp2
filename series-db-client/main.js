@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 var expressValidator = require('express-validator');
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
+const exjwt = require('express-jwt');
 
 const fs = require('fs');
 
@@ -12,13 +14,15 @@ app.set('view engine', 'ejs');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const {getGamePage,getCompanyPage, getCommentsPage} = require('./routes/index');
- const Company = require("./routes/Company.js");
- const Game = require("./routes/game.js");
- const Comment = require("./routes/Comment.js");
+ const Company = require("./routes/Company");
+ const Game = require("./routes/game");
+ const Comment = require("./routes/Comment");
  var m_object = new Company();
 
- const User = require("./routes/user.js");
- var m_user = new User();
+ const { login, register } = require('./routes/auth');
+ const jwtMW = exjwt({
+     secret: 'super secret'
+ });
 
 // Some server info
 const port = 8080;
@@ -51,7 +55,7 @@ const upCaseDataBase = databaseName[0].toUpperCase() + databaseName.slice(1);
 const opInsert = 'Insert';
 const opUpdate = 'Update';
 
-const connectionString = 'mysql://root:root@192.168.99.100:3307/series_db?charset=utf8_general_ci&timezone=-0700';
+const connectionString = 'mysql://root:root@172.18.0.1:3307/series_db?charset=utf8_general_ci&timezone=-0700';
 var db = mysql.createConnection(connectionString);
 
 db.connect((err) => {
@@ -70,6 +74,11 @@ for (let i in arrSql) {
         }
     });
 }
+
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Headers', 'Content-type,Authorization');
+    next();
+});
 
 app.use(expressValidator({
     errorFormatter: function(param, msg, value) {
@@ -135,6 +144,9 @@ app.post('/edit/:id',function(req, res){ m_company.Edit(req,res);});
 app.get('/sign_in',function(req, res){ m_user.SignInPage(req,res);});
 app.post('/sign_in',function(req, res){ m_user.SignIn(req,res);});
 app.get('/sign_out',function(req, res){ m_user.SignOut(req,res);});
+
+app.post('/login', login);
+app.post('/register', register);
 
 global.db = db;
 global.moduleChange = "change";

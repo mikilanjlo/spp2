@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import AuthHelper from './auth/AuthHelper';
  
 class EditGame extends Component {
     constructor(props){
@@ -17,11 +18,13 @@ class EditGame extends Component {
          this.onChangeGameCompany= this.onChangeGameCompany.bind(this);
          this.onSubmit = this.onSubmit.bind(this);
     }
-    
+        
+    AuthHelper = new AuthHelper();
+
     componentDidMount(){
         console.log("entry");
         let id = this.props.match.params.id;
-        axios.get('http://192.168.99.100:3000/Games/edit/' + id)
+        axios.get('http://localhost:3000/Games/edit/' + id)
           .then(response => {
             console.log("good");
             this.setState({ message: response.data.message ,
@@ -31,6 +34,14 @@ class EditGame extends Component {
           .catch(function (error) {
             console.log(error);
           })
+          if (this.AuthHelper.loggedIn()) {
+            const confirm = this.AuthHelper.getConfirm();
+            if (confirm) {
+                this.setState({
+                    confirmed: true
+                })
+            }
+        }
       }         
 
       onChangeGameName(e) {
@@ -58,7 +69,7 @@ class EditGame extends Component {
             price: this.state.Price,
         };
         let id = this.props.match.params.id;
-        axios.post('http://192.168.99.100:3000/Games/edit/'+id, obj)
+        axios.post('http://localhost:3000/Games/edit/'+id, obj)
             .then((response) => {
                 console.log(response.data)
                 this.statusCode = response.status

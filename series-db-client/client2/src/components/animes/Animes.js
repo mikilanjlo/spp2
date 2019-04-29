@@ -32,7 +32,7 @@ class Animes extends Component {
     }
 
     getAnimes() {
-        axios.get('http://localhost:4000/anim')
+        axios.get('http://localhost:3000/anim')
             .then(response => {
                 this.setState({
                     animes: response.data.data

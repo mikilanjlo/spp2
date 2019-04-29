@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import AuthHelper from './auth/AuthHelper';
  
 class AddComment extends Component {
     constructor(props){
@@ -16,9 +17,11 @@ class AddComment extends Component {
          this.onSubmit = this.onSubmit.bind(this);
     }
     
+    AuthHelper = new AuthHelper();
+
     componentDidMount(){
         console.log("entry");
-        axios.get('http://192.168.99.100:3000/Comments/add')
+        axios.get('http://localhost:3000/Comments/add')
           .then(response => {
             console.log("good");
             this.setState({ message: response.data.message ,
@@ -28,6 +31,14 @@ class AddComment extends Component {
           .catch(function (error) {
             console.log(error);
           })
+          if (this.AuthHelper.loggedIn()) {
+            const confirm = this.AuthHelper.getConfirm();
+            if (confirm) {
+                this.setState({
+                    confirmed: true
+                })
+            }
+        }
       }         
 
       onChangeCommentName(e) {
@@ -52,7 +63,7 @@ class AddComment extends Component {
             game_id: this.state.Game,
         };
         console.log(obj);
-        axios.post('http://192.168.99.100:3000/Comments/add', obj)
+        axios.post('http://localhost:3000/Comments/add', obj)
             .then((response) => {
                 
                 console.log(response.data)

@@ -10,7 +10,7 @@ class AnimeTableRow extends Component {
     }
 
     delete() {
-        axios.post('http://localhost:4000/anim/delete/'+this.props.anime.AnimeID)
+        axios.post('http://localhost:3000/anim/delete/'+this.props.anime.AnimeID)
             .then(console.log('Deleted'))
             .catch(err => console.log(err))
     }

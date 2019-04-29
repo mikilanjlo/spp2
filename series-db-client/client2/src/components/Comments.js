@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import AuthHelper from './auth/AuthHelper';
  
 class Comments extends Component {
     constructor(props){
@@ -14,9 +15,12 @@ class Comments extends Component {
                            
 
     }
+        
+    AuthHelper = new AuthHelper();
+
     componentDidMount(){
         console.log("entry");
-        axios.get('http://192.168.99.100:3000/Comments')
+        axios.get('http://localhost:3000/Comments')
           .then(response => {
             console.log("good");
             this.setState({ values: response.data.values ,
@@ -30,6 +34,14 @@ class Comments extends Component {
           .catch(function (error) {
             console.log(error);
           })
+          if (this.AuthHelper.loggedIn()) {
+            const confirm = this.AuthHelper.getConfirm();
+            if (confirm) {
+                this.setState({
+                    confirmed: true
+                })
+            }
+        }
       }         
 
                

@@ -42,7 +42,7 @@ class CreateAnim extends Component {
     }
 
     getPossibleAuthors() {
-        axios.get('http://localhost:4000/authors')
+        axios.get('http://localhost:3000/authors')
             .then(response => {
                 this.setState({
                     possibleAuthors: response.data.data
@@ -86,7 +86,7 @@ class CreateAnim extends Component {
             author: this.state.author,
         };
 
-        axios.post('http://localhost:4000/anim/create', obj)
+        axios.post('http://localhost:3000/anim/create', obj)
             .then((response) => {
                 console.log(response.data)
                 this.statusCode = response.status

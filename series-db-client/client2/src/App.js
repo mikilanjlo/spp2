@@ -14,8 +14,10 @@ import EditGame from './components/EditGame';
 import Comments from './components/Comments';
 import AddComments from './components/AddComment';
 import EditComments from './components/EditComment';
-import Delete from './components/Delete'
-import DeleteCompany from './components/DeleteCompany'
+import Delete from './components/Delete';
+import DeleteCompany from './components/DeleteCompany';
+import Login from './components/auth/Login';
+import Register from './components/auth/Register';
 
 class App extends Component {
   render() {
@@ -26,6 +28,9 @@ class App extends Component {
           <Header />
           <Switch>
               <Route exact path='/' component={ Company }/>
+              <Route path='/login' component={ Login } />
+
+              <Route path='/register' component={ Register } />
               <Route path='/add' component={ AddCompany }/>
               <Route  path='/Games/edit/:id' component={ EditGame }/>
               <Route  path='/Games/add' component={ AddGame }/>
