@@ -10,8 +10,10 @@ import Company from './components/Company';
 import AddCompany from './components/AddCompany';
 import Game from './components/Game';
 import AddGame from './components/AddGame';
+import EditGame from './components/EditGame';
 import Comments from './components/Comments';
-import AddComments from './components/AddComments';
+import AddComments from './components/AddComment';
+import EditComments from './components/EditComment';
 
 class App extends Component {
   render() {
@@ -25,8 +27,10 @@ class App extends Component {
               <Route path='/add' component={ AddCompany }/>
               <Route  path='/Games' component={ Game }/>
               <Route  path='/Games/add' component={ AddGame }/>
+              <Route  path='/Games/edit/:id' component={ EditGame }/>
               <Route  path='/Comments' component={ Comments }/>
               <Route  path='/Comments/add' component={ AddComments }/>
+              <Route  path='/Comments/edit/:id' component={ EditComments }/>
           </Switch>
         </div>
       </Router>

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
  
 class Company extends Component {
     constructor(props){
         super(props);
+        this.delete = this.delete.bind(this);
         this.state = { values: [],
             title: "",
             titleadd: "",
@@ -31,13 +33,16 @@ class Company extends Component {
           })
       }         
 
-               
+      delete(id){axios.post('http://192.168.99.100:3000/delete/'+id)
+      .then(console.log('Deleted'))
+      .catch(err => console.log(err))
+    }
     render() {
         console.log("render");
         return(
             <div>
             <nav class="navbar navbar-light bg-light">
-                <a class="float-right" Link to="/add" title="add">Add {this.state.title}</a>
+                < Link to="/add"class="float-right"  title="add">Add {this.state.title}</Link>
             </nav>
             <table class="table table-hovered">
             <thead class="thead-dark">
@@ -63,7 +68,7 @@ class Company extends Component {
                             <td>
                                  
 
-                                <a href={"delete/" + value[0]} class="btn btn-sm btn-danger">Delete</a>
+                                 
                             </td>
                         
                     </tr>)

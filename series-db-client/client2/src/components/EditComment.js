@@ -16,7 +16,8 @@ class EditComment extends Component {
     
     componentDidMount(){
         console.log("entry");
-        axios.get('http://192.168.99.100:3000/add')
+        let id = this.props.match.params.id;
+        axios.get('http://192.168.99.100:3000/edit/'+id)
           .then(response => {
             console.log("good");
             this.setState({ message: response.data.message ,
@@ -48,8 +49,8 @@ class EditComment extends Component {
         const obj = {
             name: this.state.Name,
         };
-
-        axios.post('http://192.168.99.100:3000/add', obj)
+        let id = this.props.match.params.id;
+        axios.post('http://192.168.99.100:3000/edit/' + id, obj)
             .then((response) => {
                 console.log(response.data)
                 this.statusCode = response.status

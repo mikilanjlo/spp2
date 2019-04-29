@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
  
 class AddCompany extends Component {
@@ -7,7 +8,9 @@ class AddCompany extends Component {
         this.state = {
             message: "",
             Name:"",
+            created: false,
          }
+         
          this.onChangeCompanyName = this.onChangeCompanyName.bind(this);
          this.onSubmit = this.onSubmit.bind(this);
     }
@@ -17,7 +20,7 @@ class AddCompany extends Component {
         axios.get('http://192.168.99.100:3000/add')
           .then(response => {
             console.log("good");
-            this.setState({ message: response.data.message ,
+            this.setState({ message: response.data.message ,created:false,
                 });
             
           })
@@ -41,8 +44,9 @@ class AddCompany extends Component {
 
         axios.post('http://192.168.99.100:3000/add', obj)
             .then((response) => {
-                console.log(response.data)
-                this.statusCode = response.status
+                console.log(response.data);
+                this.setState({ created:true ,
+                });
             })
             .then(response => {
                 console.log("good");
@@ -58,6 +62,8 @@ class AddCompany extends Component {
                
     render() {
         console.log("render");
+        if (this.state.created) {
+            return (<Redirect from='/add' to='/' />)}
         return(
             <div>
             <nav class="navbar navbar-light bg-light">

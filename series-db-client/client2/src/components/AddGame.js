@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
  
 class AddGame extends Component {
@@ -9,6 +10,7 @@ class AddGame extends Component {
             Name:"",
             Price: 0,
             Company: 0,
+            created:false,
          }
          this.onChangeGameName = this.onChangeGameName.bind(this);
          this.onChangeGamePrice = this.onChangeGamePrice.bind(this);
@@ -61,10 +63,12 @@ class AddGame extends Component {
             .then((response) => {
                 console.log(response.data)
                 this.statusCode = response.status
+                this.setState({ created:true ,
+                });
             })
             .then(response => {
                 console.log("good");
-                this.setState({ message: response.data.message ,
+                this.setState({ message: response.data.message ,created:false,
                     });
                 
               })
@@ -76,6 +80,8 @@ class AddGame extends Component {
                
     render() {
         console.log("render");
+        if (this.state.created) {
+            return (<Redirect from='/add' to='/' />)}
         return(
             <div>
             <nav class="navbar navbar-light bg-light">
