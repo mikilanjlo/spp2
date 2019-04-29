@@ -37,7 +37,7 @@ class Company extends Component {
         return(
             <div>
             <nav class="navbar navbar-light bg-light">
-                <a class="float-right" href="/add" title="add">Add {this.state.title}</a>
+                <a class="float-right" Link to="/add" title="add">Add {this.state.title}</a>
             </nav>
             <table class="table table-hovered">
             <thead class="thead-dark">

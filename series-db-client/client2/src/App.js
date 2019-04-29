@@ -7,6 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import Header from './components/Header';
 import Company from './components/Company';
+import AddCompany from './components/AddCompany';
 import Game from './components/Game';
 import Comments from './components/Comments';
 
@@ -19,6 +20,7 @@ class App extends Component {
           <Header />
           <Switch>
               <Route exact path='/' component={ Company }/>
+              <Route path='/add' component={ AddCompany }/>
               <Route  path='/Games' component={ Game }/>
               <Route  path='/Comments' component={ Comments }/>
           </Switch>
