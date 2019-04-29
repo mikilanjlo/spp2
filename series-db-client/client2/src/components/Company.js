@@ -61,7 +61,7 @@ class Company extends Component {
                     }
 
                             <td>
-                                 <a href={"edit/" + value[0]} target="_blank" rel="noopener" class="btn btn-sm btn-success">Edit</a>
+                                 
 
                                 <a href={"delete/" + value[0]} class="btn btn-sm btn-danger">Delete</a>
                             </td>
