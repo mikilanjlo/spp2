@@ -63,16 +63,24 @@ class Header extends Component {
                
     render() {
         return(
-            <div>
+            <div className="navbar-username">
             <div class="page-wrapper">
                 <nav class="navbar navbar-light bg-light">
                     <span class="navbar-brand mb-0 h1"><Link to="/">Company</Link></span>
                     <span class="navbar-brand mb-0 h1"><Link to="/Games">Games</Link></span>
                     <span class="navbar-brand mb-0 h1"><Link to="/Comments">Comments</Link></span>
                 </nav>
-                <UserInfo login = {this.state.currentUser.login} handleUserInfoChanges = {this.handleUserInfoChanges}/>
+                
             </div>
-            : <AuthContainer handleAuthContainerChanges = {this.handleAuthContainerChanges}/>}
+            <div>
+                <div class="page-wrapper"></div>
+                    <nav class="navbar navbar-light bg-light">{console.log(this.state.confirmed)}
+                    { this.state.confirmed ? 
+                   ( <UserInfo login = {this.state.currentUser.login} handleUserInfoChanges = {this.handleUserInfoChanges}/>)
+                     :(<AuthContainer handleAuthContainerChanges = {this.handleAuthContainerChanges}/>)}
+                    </nav>
+                </div>
+            
             </div>
         )
     }

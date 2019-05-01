@@ -46,7 +46,7 @@ class UserInfo extends Component {
         return(
             <span>
                 <span className="navbar-text navbar-username">Logged in!</span>
-                <Link to={'/teams'} onClick={this.onLogOut} className="btn btn-outline-info my-2 my-sm-0">Log out</Link>
+                <Link to={'/teams'} onClick={this.onLogOut} >Log out</Link>
             </span>
         )
     }

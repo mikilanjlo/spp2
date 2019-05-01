@@ -9,8 +9,8 @@ class AuthContainer extends Component {
     render() {
         return(
             <span>                
-              <Link to={'/login'} className="btn btn-outline-info my-2 my-sm-0">Login</Link>
-              <Link to={'/register'} className="btn btn-outline-info my-2 my-sm-0">Register</Link>
+              <Link to={'/login'} >Login</Link>
+              <Link to={'/register'}>Register</Link>
             </span>
         )
     }

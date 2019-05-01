@@ -6,7 +6,7 @@ import AuthHelper from './auth/AuthHelper';
 class Company extends Component {
     constructor(props){
         super(props);
-        this.delete = this.delete.bind(this);
+        
         this.state = { values: [],
             title: "",
             titleadd: "",

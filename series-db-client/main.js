@@ -55,7 +55,7 @@ const upCaseDataBase = databaseName[0].toUpperCase() + databaseName.slice(1);
 const opInsert = 'Insert';
 const opUpdate = 'Update';
 
-const connectionString = 'mysql://root:root@http://192.168.99.100:3307/series_db?charset=utf8_general_ci&timezone=-0700';
+const connectionString = 'mysql://root:root@192.168.99.100:3307/series_db?charset=utf8_general_ci&timezone=-0700';
 var db = mysql.createConnection(connectionString);
 
 db.connect((err) => {
