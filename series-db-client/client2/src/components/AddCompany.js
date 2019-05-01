@@ -20,7 +20,7 @@ class AddCompany extends Component {
 
     componentDidMount(){
         console.log("entry");
-        axios.get('http://localhost:3000/add')
+        axios.get('http://192.168.99.100:3000/add')
           .then(response => {
             console.log("good");
             this.setState({ message: response.data.message ,created:false,
@@ -53,7 +53,7 @@ class AddCompany extends Component {
             name: this.state.Name,
         };
 
-        axios.post('http://localhost:3000/add', obj)
+        axios.post('http://192.168.99.100:3000/add', obj)
             .then((response) => {
                 console.log(response.data);
                 this.setState({ created:true ,

@@ -23,7 +23,7 @@ class AddGame extends Component {
 
     componentDidMount(){
         console.log("entry");
-        axios.get('http://localhost:3000/Games/add')
+        axios.get('http://192.168.99.100:3000/Games/add')
           .then(response => {
             console.log("good");
             this.setState({ message: response.data.message ,
@@ -70,7 +70,7 @@ class AddGame extends Component {
             company_id: this.state.Company,
         };
         console.log(obj);
-        axios.post('http://localhost:3000/Games/add', obj)
+        axios.post('http://192.168.99.100:3000/Games/add', obj)
             .then((response) => {
                 console.log(response.data)
                 this.statusCode = response.status

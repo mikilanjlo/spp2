@@ -70,9 +70,12 @@ class Header extends Component {
                     <span class="navbar-brand mb-0 h1"><Link to="/Games">Games</Link></span>
                     <span class="navbar-brand mb-0 h1"><Link to="/Comments">Comments</Link></span>
                 </nav>
-                <UserInfo login = {this.state.currentUser.login} handleUserInfoChanges = {this.handleUserInfoChanges}/>
             </div>
-            : <AuthContainer handleAuthContainerChanges = {this.handleAuthContainerChanges}/>}
+            <nav class="navbar navbar-light bg-light">
+               {this.state.confirmed ? ( <UserInfo login = {this.state.currentUser.login} handleUserInfoChanges = {this.handleUserInfoChanges}/>):(
+            
+             <AuthContainer handleAuthContainerChanges = {this.handleAuthContainerChanges}/>)}
+             </nav>
             </div>
         )
     }

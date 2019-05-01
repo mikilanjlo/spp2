@@ -21,7 +21,7 @@ class Company extends Component {
 
     componentDidMount(){
         console.log("entry");
-        axios.get('http://localhost:3000/')
+        axios.get('http://192.168.99.100:3000/')
           .then(response => {
             console.log("good");
             this.setState({ values: response.data.values ,
@@ -45,7 +45,7 @@ class Company extends Component {
         }
       }         
 
-      delete(id){axios.post('http://localhost:3000/delete/'+id)
+      delete(id){axios.post('http://192.168.99.100:3000/delete/'+id)
       .then(console.log('Deleted'))
       .catch(err => console.log(err))
     }
