@@ -1,12 +1,10 @@
 module.exports = {
-    getGamePage: (req, res) => {
+    getGamePage: () => {
         var sql = "SELECT game.id, game.name, company.name  AS CompanyName, price FROM game  join company on Company = company.id ORDER BY game.id"; 
 
         // execute query
-        db.query(sql, (err, result) => {
-            if (err) {
-                res.redirect('/Games');
-            }
+       var result = db.query(sql);
+
                 var array = [];
                     for(var i = 0; i < result.length; i++){
                         array[i] = [];
@@ -18,7 +16,7 @@ module.exports = {
                 //}
                 var countResult =result.length;// result.count;
                 //pageData = new PageData("Welcome to GameShop | View Games",["id","name"],"Add Company",2,array);
-                res.json( {
+                var games = {
 
                     title: "Welcome to GameShop | View Games",
                     titleadd: "Add Game",
@@ -26,19 +24,17 @@ module.exports = {
                     values:array,
                     valuesNames: ["id","name","Company","price $"],
                     isEdit:true,
-                    module: moduleMain
-
-            });
-        });
+                    
+                
+                };
+    return games;
     },
-    getCompanyPage: (req, res) => {
+    getCompanyPage: function() {
         var sql = "SELECT * FROM company ORDER BY id"; 
-
+        
         // execute query
-        db.query(sql, (err, result) => {
-            if (err) {
-                res.redirect('/');
-            }
+        var result =db.query(sql);
+
             //function getarray(){
             var array = [];
                 for(var i = 0; i < result.length; i++){
@@ -48,7 +44,7 @@ module.exports = {
                 }
             //}
             var countResult =result.length;
-            res.json( {
+          var  company = {
 
                 title: "Welcome to GameShop | View Games",
                 titleadd: "Add Company",
@@ -56,20 +52,21 @@ module.exports = {
                 values:array,//getarray(),
                 valuesNames: ["id","name"],
                 isEdit:false,
-                module: moduleMain
+               
 
                 
-            });
-        });
+            };
+  
+            
+        
+        return company;
     },
-    getCommentsPage: (req, res) => {
+    getCommentsPage: () => {
         var sql = "SELECT comment.id , game.name as gamename, comment.name FROM comment join game on Game = game.id ORDER BY comment.id"; 
 
         // execute query
-        db.query(sql, (err, result) => {
-            if (err) {
-                res.redirect('/Comments');
-            }
+        var result= db.query(sql)
+
             var array = [];
                 for(var i = 0; i < result.length; i++){
                     array[i] = [];
@@ -79,7 +76,7 @@ module.exports = {
                 }
             //}
             var countResult =result.length;
-            res.json( {
+            var comments= {
 
                 title: "Welcome to GameShop | View Games",
                 titleadd: "Add comment",
@@ -87,12 +84,12 @@ module.exports = {
                 values:array,//getarray(),
                 valuesNames: ["id","game id","content"],
                 isEdit:true,
-                module: moduleMain
+               
 
                 
-            });
-            
-        });
+            };
+            return comments;
+        
     },
 };
 

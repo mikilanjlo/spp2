@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import AuthHelper from './auth/AuthHelper';
- 
+import socketIOClient from 'socket.io-client';
+const endpoint = "http://localhost:8081";
 class EditGame extends Component {
     constructor(props){
         super(props);
@@ -17,6 +18,7 @@ class EditGame extends Component {
          this.onChangeGamePrice = this.onChangeGamePrice.bind(this);
          this.onChangeGameCompany= this.onChangeGameCompany.bind(this);
          this.onSubmit = this.onSubmit.bind(this);
+         this.socket = socketIOClient(endpoint); 
     }
         
     AuthHelper = new AuthHelper();
@@ -24,16 +26,7 @@ class EditGame extends Component {
     componentDidMount(){
         console.log("entry");
         let id = this.props.match.params.id;
-        axios.get('http://192.168.99.100:3000/Games/edit/' + id)
-          .then(response => {
-            console.log("good");
-            this.setState({ message: response.data.message ,
-                });
-            
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
+        
           if (this.AuthHelper.loggedIn()) {
             const confirm = this.AuthHelper.getConfirm();
             if (confirm) {
@@ -65,26 +58,14 @@ class EditGame extends Component {
     onSubmit(e) {
         e.preventDefault();
 
+
+        let id = this.props.match.params.id;
         const obj = {
+            id:id,
             price: this.state.Price,
         };
-        let id = this.props.match.params.id;
-        axios.post('http://192.168.99.100:3000/Games/edit/'+id, obj)
-            .then((response) => {
-                console.log(response.data)
-                this.statusCode = response.status
-                this.setState({ edited:true ,
-                });
-            })
-            .then(response => {
-                console.log("good");
-                this.setState({ message: response.data.message ,
-                    });
-                
-              })
-              .catch(function (error) {
-                console.log(error);
-              })
+        this.socket.emit('edit Games',obj);
+        this.setState({edited : true,});
     }
 
                

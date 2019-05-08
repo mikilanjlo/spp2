@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AuthHelper from './auth/AuthHelper';
- 
+import socketIOClient from 'socket.io-client';
+const endpoint = "http://localhost:8081";
 class Company extends Component {
     constructor(props){
         super(props);
@@ -13,15 +14,15 @@ class Company extends Component {
             countValues: 2,
             valuesNames: [],
             isEdit:false};
-                           
+            this.socket = socketIOClient(endpoint);                
 
     }
         
     AuthHelper = new AuthHelper();
 
     componentDidMount(){
-        console.log("entry");
-        axios.get('http://192.168.99.100:3000/')
+        this.GetCompany();
+        /*axios.get('http://192.168.99.100:3000/')
           .then(response => {
             console.log("good");
             this.setState({ values: response.data.values ,
@@ -34,7 +35,7 @@ class Company extends Component {
           })
           .catch(function (error) {
             console.log(error);
-          })
+          })*/
           if (this.AuthHelper.loggedIn()) {
             const confirm = this.AuthHelper.getConfirm();
             if (confirm) {
@@ -49,6 +50,23 @@ class Company extends Component {
       .then(console.log('Deleted'))
       .catch(err => console.log(err))
     }
+
+GetCompany(){
+    this.socket.on('Company', (company) => {
+        console.log('good');
+        console.log(company);
+        if(company !== null)
+        this.setState({ values: company.values ,
+            title: company.title,
+            //titleadd: response.data.titleadd,
+            countValues: company.countValues,
+            valuesNames: company.valuesNames,
+            isEdit:company.isEdit,});
+        
+      
+    });
+}
+
     render() {
         console.log("render");
         return(

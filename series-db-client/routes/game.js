@@ -2,88 +2,50 @@ const fs = require('fs');
 
 class Game{
     costructor(){}
-    AddPage(req, res){
-        res.json( {
-            message: '',
-            title: "Add Game",
-            titleadd: "Add Game",
-            valuesNames: ["name","price","company_id"],
-            module: moduleChange
-        });
-    }
 
-    Add(req, res){
+
+    Add(game){
 
         let message = '';
-        let name = req.body.name;
-        let price = req.body.price;
-        let company_id= req.body.company_id;
+        let name = game.name;
+        let price = game.price;
+        let company_id= game.company_id;
 
         let sql = "SELECT * FROM game WHERE name = '" + name + "'";
 
-        db.query(sql, (err, result) => {
-            if (err) {
-                return res.status(500).send(err);
-            }
-            if (result.length > 0) {
-                message = 'Game already exists';
-                res.json({
-                    message
-                });
-            } else {
+
                     let query = "INSERT INTO game (name,price,Company) VALUES ('" +
                     name + "', '" + price +"' , '" + company_id +"')";
-                    db.query(query, (err, result) => {
-                        if (err) {
-                            return res.status(500).send(err);
-                        }
-                        res.redirect('/Games');
-                    });
-                } 
-        });
+                    var result =db.query(query)
+                       
+                      
+
+        
     }
 
-    EditPage(req, res){
-        let Id = req.params.id;
-        let query = "SELECT * FROM game WHERE id = '" + Id + "' ";
-        db.query(query, (err, result) => {
-            if (err) {
-                return res.status(500).send(err);
-            }
-            res.json( {
-                title: "Edit  Game",
-                //game: result[0],
-                message: '',
-                titleadd: "Edit Game",
-                valuesNames: ["price"],
-                module: moduleChange
-            });
-        });
-    }
 
-    Edit(req, res){
-        let Id = req.params.id;
-        let price = req.body.price;
+
+    Edit(game){
+        let Id = game.id;
+        let price = game.price;
 
         let query = "UPDATE game SET price = '" + price + "' WHERE id = '" + Id + "'";
-        db.query(query, (err, result) => {
+        var result =db.query(query)
             if (err) {
                 return res.status(500).send(err);
             }
-            res.redirect('/Games');
-        });
+        
     }
 
-    Delete(req, res){
-        let Id = req.params.id;
+    Delete(id){
+        let Id = id;
         let deleteGameQuery = 'DELETE FROM game WHERE id = "' + Id + '"';
 
-             db.query(deleteGameQuery, (err, result) => {
+            var result = db.query(deleteGameQuery)
                 if (err) {
                     return res.status(500).send(err);
                 }
-                res.redirect('/Games');
-            });
+            
             
        
     }
@@ -116,7 +78,7 @@ class Game{
                     values:array,
                     valuesNames: ["id","name","Company","price $"],
                     isEdit:true,
-                    module: moduleMain
+                   
 
             });
         });

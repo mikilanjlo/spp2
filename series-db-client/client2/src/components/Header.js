@@ -4,7 +4,8 @@ import AuthContainer from './auth/AuthContainer';
 import UserInfo from './auth/UserInfo';
 import AuthHelper from './auth/AuthHelper';
 import { connect } from "react-redux";
- 
+import socketIOClient from 'socket.io-client';
+const endpoint = "http://localhost:8081";
 const mapStateToProps = state => {
     return {
         shouldRerenderHeader: state.shouldRerenderHeader
@@ -19,6 +20,7 @@ class Header extends Component {
             confirmed: false,
             logged: false
         }
+        this.socket = socketIOClient(endpoint); 
     }
        
     AuthHelper = new AuthHelper();

@@ -2,7 +2,7 @@ const fs = require('fs');
 
 class Comment{
     costructor(){}
-    AddPage(req, res){
+    /*AddPage(req, res){
         res.json( {
             message: '',
             title: "Add Comment",
@@ -10,34 +10,26 @@ class Comment{
             valuesNames: ["content","game_id"],
             module: moduleChange
         });
-    }
+    }*/
 
-    Add(req, res){
+    Add(comment){
 
         let message = '';
-        let name = req.body.content;
-        let game_id= req.body.game_id;
+        let name = comment.content;
+        let game_id= comment.game_id;
 
-        let sql = "SELECT * FROM comment WHERE name = '" + name + "'";
+      
 
-        db.query(sql, (err, result) => {
-            if (err) {
-                return res.status(500).send(err);
-            }
-
-                    let query = "INSERT INTO comment (name,company) VALUES ('" +
+                    let query = "INSERT INTO comment (name,Game) VALUES ('" +
                     name + "' , '" + game_id +"')";
-                    db.query(query, (err, result) => {
-                        if (err) {
-                            return res.status(500).send(err);
-                        }
-                        res.redirect('/Comments');
-                    });
+                    let result =db.query(query)
+                        
+                        //res.redirect('/Comments');
+                    
                 
-        });
     }
 
-    EditPage(req, res){
+    /*EditPage(req, res){
         let Id = req.params.id;
         let query = "SELECT * FROM comment WHERE id = '" + Id + "' ";
         db.query(query, (err, result) => {
@@ -53,31 +45,27 @@ class Comment{
                 module: moduleChange
             });
         });
-    }
+    }*/
 
-    Edit(req, res){
-        let Id = req.params.id;
-        let name = req.body.content;
+    Edit(comment){
+        let Id = comment.id;
+        let name = comment.content;
 
         let query = "UPDATE comment SET name = '" + name + "' WHERE id = '" + Id + "'";
-        db.query(query, (err, result) => {
-            if (err) {
-                return res.status(500).send(err);
-            }
-            res.redirect('/Comments');
-        });
+        let result=db.query(query)
+           
+            //res.redirect('/Comments');
+        
     }
 
-    Delete(req, res){
-        let Id = req.params.id;
+    Delete(id){
+        let Id = id;
         let deleteCommentQuery = 'DELETE FROM comment WHERE id = "' + Id + '"';
 
-             db.query(deleteCommentQuery, (err, result) => {
-                if (err) {
-                    return res.status(500).send(err);
-                }
-                res.redirect('/Comments');
-            });
+             var result =db.query(deleteCommentQuery);
+                
+                //res.redirect('/Comments');
+            
             
        
     }

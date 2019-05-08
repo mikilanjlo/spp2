@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-
+import socketIOClient from 'socket.io-client';
+const endpoint = "http://localhost:8081";
 class DeleteCompany extends Component {
     constructor(props){
         super(props);
        
-        
+        this.socket = socketIOClient(endpoint); 
     }
     
          
@@ -17,20 +18,8 @@ class DeleteCompany extends Component {
     render() {
         let id = this.props.match.params.id;
         
-        axios.get('http://192.168.99.100:3000/delete/'+id)
-            .then((response) => {
-                console.log(response.data)
-                this.statusCode = response.status
-
-            })
-            .then(response => {
-                console.log("good");
-
-              })
-              .catch(function (error) {
-                console.log(error);
-              })
-        console.log("render games add");
+        this.socket.emit('delete Company',id);
+        console.log("render games delete");
             return (<Redirect from={'/delete/'+id} to={'/' } />)
     }
 }

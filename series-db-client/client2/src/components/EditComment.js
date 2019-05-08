@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import AuthHelper from './auth/AuthHelper';
- 
+import { Redirect } from 'react-router-dom';
+import socketIOClient from 'socket.io-client';
+const endpoint = "http://localhost:8081";
 class EditComment extends Component {
     constructor(props){
         super(props);
@@ -9,10 +11,12 @@ class EditComment extends Component {
             message: "",
             Name:"",
             Game: 0,
+            edited:false,
          }
          this.onChangeCommentName = this.onChangeCommentName.bind(this);
          this.onChangeCommentGame= this.onChangeCommentGame.bind(this);
          this.onSubmit = this.onSubmit.bind(this);
+         this.socket = socketIOClient(endpoint); 
     }
         
     AuthHelper = new AuthHelper();
@@ -20,16 +24,7 @@ class EditComment extends Component {
     componentDidMount(){
         console.log("entry");
         let id = this.props.match.params.id;
-        axios.get('http://192.168.99.100:3000/Comments/edit/'+id)
-          .then(response => {
-            console.log("good");
-            this.setState({ message: response.data.message ,
-                });
-            
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
+        
           if (this.AuthHelper.loggedIn()) {
             const confirm = this.AuthHelper.getConfirm();
             if (confirm) {
@@ -57,29 +52,21 @@ class EditComment extends Component {
     onSubmit(e) {
         e.preventDefault();
 
+        
+        
         const obj = {
-            name: this.state.Name,
+            id:this.props.match.params.id,
+            content: this.state.Name,
         };
-        let id = this.props.match.params.id;
-        axios.post('http://192.168.99.100:3000/Comments/edit/' + id, obj)
-            .then((response) => {
-                console.log(response.data)
-                this.statusCode = response.status
-            })
-            .then(response => {
-                console.log("good");
-                this.setState({ message: response.data.message ,
-                    });
-                
-              })
-              .catch(function (error) {
-                console.log(error);
-              })
+        this.socket.emit('edit Comments',obj);
+        this.setState({edited : true,});
     }
 
                
     render() {
         console.log("render");
+        if (this.state.edited) {
+            return (<Redirect from='Comments/edit' to='/Comments' />)}
         return(
             <div>
             <nav class="navbar navbar-light bg-light">

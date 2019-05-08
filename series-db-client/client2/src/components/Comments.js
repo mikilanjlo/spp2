@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AuthHelper from './auth/AuthHelper';
- 
+import socketIOClient from 'socket.io-client';
+const endpoint = "http://localhost:8081";
 class Comments extends Component {
     constructor(props){
         super(props);
@@ -13,27 +14,14 @@ class Comments extends Component {
             valuesNames: [],
             isEdit:false};
                            
-
+            this.socket = socketIOClient(endpoint); 
     }
         
     AuthHelper = new AuthHelper();
 
     componentDidMount(){
         console.log("entry");
-        axios.get('http://192.168.99.100:3000/Comments')
-          .then(response => {
-            console.log("good");
-            this.setState({ values: response.data.values ,
-                title: response.data.title,
-                //titleadd: response.data.titleadd,
-                countValues: response.data.countValues,
-                valuesNames: response.data.valuesNames,
-                isEdit:response.data.isEdit,});
-            
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
+        this.GetComments();
           if (this.AuthHelper.loggedIn()) {
             const confirm = this.AuthHelper.getConfirm();
             if (confirm) {
@@ -42,7 +30,23 @@ class Comments extends Component {
                 })
             }
         }
-      }         
+      }    
+      
+      GetComments(){
+        this.socket.on('Comments', (comments) => {
+            console.log('good');
+            console.log(comments);
+            if(comments !== null)
+            this.setState({ values: comments.values ,
+                title: comments.title,
+                //titleadd: response.data.titleadd,
+                countValues: comments.countValues,
+                valuesNames: comments.valuesNames,
+                isEdit:comments.isEdit,});
+            
+          
+        });
+    }
 
                
     render() {

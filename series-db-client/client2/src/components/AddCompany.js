@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import AuthHelper from './auth/AuthHelper';
- 
+import socketIOClient from 'socket.io-client';
+const endpoint = "http://localhost:8081";
 class AddCompany extends Component {
     constructor(props){
         super(props);
@@ -14,22 +15,14 @@ class AddCompany extends Component {
          
          this.onChangeCompanyName = this.onChangeCompanyName.bind(this);
          this.onSubmit = this.onSubmit.bind(this);
+         this.socket = socketIOClient(endpoint); 
     }
         
     AuthHelper = new AuthHelper();
 
     componentDidMount(){
         console.log("entry");
-        axios.get('http://192.168.99.100:3000/add')
-          .then(response => {
-            console.log("good");
-            this.setState({ message: response.data.message ,created:false,
-                });
-            
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
+        
           if (this.AuthHelper.loggedIn()) {
             const confirm = this.AuthHelper.getConfirm();
             if (confirm) {
@@ -53,21 +46,8 @@ class AddCompany extends Component {
             name: this.state.Name,
         };
 
-        axios.post('http://192.168.99.100:3000/add', obj)
-            .then((response) => {
-                console.log(response.data);
-                this.setState({ created:true ,
-                });
-            })
-            .then(response => {
-                console.log("good");
-                this.setState({ message: response.data.message ,
-                    });
-                
-              })
-              .catch(function (error) {
-                console.log(error);
-              })
+        this.socket.emit('add Company',obj);
+        this.setState({created : true,});
     }
 
                

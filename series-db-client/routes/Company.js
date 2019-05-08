@@ -2,7 +2,7 @@ const fs = require('fs');
 
 class Company{
     costructor(){}
-    AddPage(req, res){
+    /*AddPage(req, res){
         res.json({
             message: '',
             title: "Add Company",
@@ -10,47 +10,31 @@ class Company{
             valuesNames: ["name"],
             module: moduleChange
         });
-    }
+    }*/
 
 
-    Add(req, res){
+    Add(company){
         let message = '';
-        let name = req.body.name;
+        let name = company.name;
 
         let sql = "SELECT * FROM company WHERE name = '" + name + "'";
 
-        db.query(sql, (err, result) => {
-            if (err) {
-                return res.status(500).send(err);
-            }
-            if (result.length > 0) {
-                message = 'Company already exists';
-                res.json( {
-                    message
-                });
-            } else {
+     
                     let query = "INSERT INTO company (name) VALUES ('" +
                     name + "')";
-                    db.query(query, (err, result) => {
-                        if (err) {
-                            return res.status(500).send(err);
-                        }
-                        res.redirect('/');
-                    });
-                } 
-        });
+                    var result =db.query(query)
+  
+        
     }
 
-    Delete(req, res){
-        let companyId = req.params.id;
+    Delete(id){
+        let companyId = id;
         let deleteCompanyQuery = 'DELETE FROM company WHERE id = "' + companyId + '"';
 
-             db.query(deleteCompanyQuery, (err, result) => {
-                if (err) {
-                    return res.status(500).send(err);
-                }
-                res.redirect('/');
-            });
+        var result =db.query(deleteCompanyQuery)
+               
+                //res.redirect('/');
+            
             
        
     }
@@ -76,11 +60,8 @@ class Company{
 
                 title: "Welcome to GameShop | View Games",
                 titleadd: "Add Company",
-                countValues: countResult,
                 values:array,
                 valuesNames: ["id","name"],
-                isEdit:false,
-                module: moduleMain
 
                 
             });

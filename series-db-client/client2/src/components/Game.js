@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AuthHelper from './auth/AuthHelper';
- 
+import socketIOClient from 'socket.io-client';
+const endpoint = "http://localhost:8081";
 class Game extends Component {
     constructor(props){
         super(props);
@@ -14,26 +15,14 @@ class Game extends Component {
             isEdit:false};
                            
 
+            this.socket = socketIOClient(endpoint); 
     }
         
     AuthHelper = new AuthHelper();
 
     componentDidMount(){
         console.log("entry");
-        axios.get('http://192.168.99.100:3000/Games')
-          .then(response => {
-            console.log("good");
-            this.setState({ values: response.data.values ,
-                title: response.data.title,
-                //titleadd: response.data.titleadd,
-                countValues: response.data.countValues,
-                valuesNames: response.data.valuesNames,
-                isEdit:response.data.isEdit,});
-            
-          })
-          .catch(function (error) {
-            console.log(error);
-          })
+        this.GetGames();
           if (this.AuthHelper.loggedIn()) {
             const confirm = this.AuthHelper.getConfirm();
             if (confirm) {
@@ -43,7 +32,21 @@ class Game extends Component {
             }
         }
       }         
-
+      GetGames(){
+        this.socket.on('Games', (games) => {
+            console.log('good');
+            console.log(games);
+            if(games !== null)
+            this.setState({ values: games.values ,
+                title: games.title,
+                //titleadd: response.data.titleadd,
+                countValues: games.countValues,
+                valuesNames: games.valuesNames,
+                isEdit:games.isEdit,});
+            
+          
+        });
+    }
                
     render() {
         console.log("render");
