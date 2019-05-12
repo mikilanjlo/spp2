@@ -20,7 +20,7 @@ class Header extends Component {
             confirmed: false,
             logged: false
         }
-        this.socket = socketIOClient(endpoint); 
+        //this.socket = socketIOClient(endpoint); 
     }
        
     AuthHelper = new AuthHelper();

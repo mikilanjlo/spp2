@@ -4,7 +4,7 @@ module.exports = {
 
         // execute query
        var result = db.query(sql);
-
+        return result;
                 var array = [];
                     for(var i = 0; i < result.length; i++){
                         array[i] = [];
@@ -34,7 +34,7 @@ module.exports = {
         
         // execute query
         var result =db.query(sql);
-
+        return result;
             //function getarray(){
             var array = [];
                 for(var i = 0; i < result.length; i++){
@@ -66,7 +66,7 @@ module.exports = {
 
         // execute query
         var result= db.query(sql)
-
+        return result;
             var array = [];
                 for(var i = 0; i < result.length; i++){
                     array[i] = [];

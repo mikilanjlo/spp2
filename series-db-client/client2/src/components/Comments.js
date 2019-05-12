@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AuthHelper from './auth/AuthHelper';
 import socketIOClient from 'socket.io-client';
-const endpoint = "http://localhost:8081";
 class Comments extends Component {
     constructor(props){
         super(props);
@@ -11,10 +10,10 @@ class Comments extends Component {
             title: "",
             titleadd: "",
             countValues: 2,
-            valuesNames: [],
+            valuesNames: ["id","game id","content"],
             isEdit:false};
                            
-            this.socket = socketIOClient(endpoint); 
+            //this.socket = socketIOClient(endpoint); 
     }
         
     AuthHelper = new AuthHelper();
@@ -32,20 +31,37 @@ class Comments extends Component {
         }
       }    
       
-      GetComments(){
-        this.socket.on('Comments', (comments) => {
-            console.log('good');
-            console.log(comments);
-            if(comments !== null)
-            this.setState({ values: comments.values ,
-                title: comments.title,
-                //titleadd: response.data.titleadd,
-                countValues: comments.countValues,
-                valuesNames: comments.valuesNames,
-                isEdit:comments.isEdit,});
-            
-          
-        });
+     async GetComments(){
+        let result = await axios({
+            url: 'http://localhost:8080/graphql',
+            method: 'post',
+            data: { query:`
+                        {
+                            comments {
+                                id
+                                name
+                                gamename
+                            }
+                        }
+                        `}
+        },
+    );
+    const result2 = result.data.data.comments;
+    console.log('getcomments');
+    console.log(result2);
+    var array = [];
+    //for(var i = 0; i < result2.length; i++)
+    var i =0;
+    result2.map((myvalue)=>
+    {
+        array[i] = [];
+                        array[i][0] = myvalue.id;
+                        array[i][2] =myvalue.name;
+                        array[i][1] =myvalue.gamename
+        i++;
+    });
+            this.setState({ values: array
+                });
     }
 
                

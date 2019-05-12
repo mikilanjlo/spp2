@@ -3,7 +3,6 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import AuthHelper from './auth/AuthHelper';
 import socketIOClient from 'socket.io-client';
-const endpoint = "http://localhost:8081";
 class AddCompany extends Component {
     constructor(props){
         super(props);
@@ -15,7 +14,7 @@ class AddCompany extends Component {
          
          this.onChangeCompanyName = this.onChangeCompanyName.bind(this);
          this.onSubmit = this.onSubmit.bind(this);
-         this.socket = socketIOClient(endpoint); 
+         //this.socket = socketIOClient(endpoint); 
     }
         
     AuthHelper = new AuthHelper();
@@ -42,11 +41,20 @@ class AddCompany extends Component {
     onSubmit(e) {
         e.preventDefault();
 
-        const obj = {
-            name: this.state.Name,
-        };
+        axios({
+            url: 'http://localhost:8080/graphql',
+            method: 'post',
+            data: {
+                query: `
+      mutation createCompany($name: String){
+  createCompany(name: $name){
+    id
+                                name
+  }
+}
+      `,variables:{name: this.state.Name},}
 
-        this.socket.emit('add Company',obj);
+        });
         this.setState({created : true,});
     }
 

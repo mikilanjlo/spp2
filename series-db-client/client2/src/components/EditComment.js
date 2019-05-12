@@ -16,7 +16,7 @@ class EditComment extends Component {
          this.onChangeCommentName = this.onChangeCommentName.bind(this);
          this.onChangeCommentGame= this.onChangeCommentGame.bind(this);
          this.onSubmit = this.onSubmit.bind(this);
-         this.socket = socketIOClient(endpoint); 
+         //this.socket = socketIOClient(endpoint); 
     }
         
     AuthHelper = new AuthHelper();
@@ -54,11 +54,21 @@ class EditComment extends Component {
 
         
         
-        const obj = {
-            id:this.props.match.params.id,
-            content: this.state.Name,
-        };
-        this.socket.emit('edit Comments',obj);
+        axios({
+            url: 'http://localhost:8080/graphql',
+            method: 'post',
+            data: {
+                query: `
+      mutation editComment($id : String,$name: String){
+  editComment(id:$id, name: $name){
+    id
+                                name
+                                gamename
+  }
+}
+      `,variables:{name: this.state.Name, id: this.props.match.params.id},}
+
+        });
         this.setState({edited : true,});
     }
 

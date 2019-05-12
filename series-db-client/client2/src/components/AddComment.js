@@ -4,7 +4,7 @@ import axios from 'axios';
 import AuthHelper from './auth/AuthHelper';
 
 import socketIOClient from 'socket.io-client';
-const endpoint = "http://localhost:8081";
+
 class AddComment extends Component {
     constructor(props){
         super(props);
@@ -17,7 +17,7 @@ class AddComment extends Component {
          this.onChangeCommentName = this.onChangeCommentName.bind(this);
          this.onChangeCommentGame= this.onChangeCommentGame.bind(this);
          this.onSubmit = this.onSubmit.bind(this);
-         this.socket = socketIOClient(endpoint); 
+         //this.socket = socketIOClient(endpoint); 
     }
     
     AuthHelper = new AuthHelper();
@@ -52,12 +52,21 @@ class AddComment extends Component {
     onSubmit(e) {
         e.preventDefault();
 
-        const obj = {
-            content: this.state.Name,
-            game_id: this.state.Game,
-        };
-        console.log(obj);
-        this.socket.emit('add Comments',obj);
+        axios({
+            url: 'http://localhost:8080/graphql',
+            method: 'post',
+            data: {
+                query: `
+      mutation createComment($name: String,  $gamename: String){
+  createComment(name: $name, gamename: $gamename ){
+    id
+                                name
+                                gamename
+  }
+}
+      `,variables:{name: this.state.Name, gamename: this.state.Game},}
+
+        });
         this.setState({created : true,});
     }
 

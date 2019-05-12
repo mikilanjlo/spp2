@@ -7,7 +7,7 @@ class Delete extends Component {
     constructor(props){
         super(props);
        
-        this.socket = socketIOClient(endpoint); 
+        //this.socket = socketIOClient(endpoint); 
     }
     
          

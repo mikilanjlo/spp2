@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AuthHelper from './auth/AuthHelper';
-import socketIOClient from 'socket.io-client';
-const endpoint = "http://localhost:8081";
+//import socketIOClient from 'socket.io-client';
+import { Redirect } from 'react-router-dom';
+//const endpoint = "http://localhost:8081";
 class Company extends Component {
     constructor(props){
         super(props);
@@ -12,9 +13,9 @@ class Company extends Component {
             title: "",
             titleadd: "",
             countValues: 2,
-            valuesNames: [],
+            valuesNames: ["id","name"],
             isEdit:false};
-            this.socket = socketIOClient(endpoint);                
+            //this.socket = socketIOClient(endpoint);                
 
     }
         
@@ -22,20 +23,7 @@ class Company extends Component {
 
     componentDidMount(){
         this.GetCompany();
-        /*axios.get('http://192.168.99.100:3000/')
-          .then(response => {
-            console.log("good");
-            this.setState({ values: response.data.values ,
-                title: response.data.title,
-                //titleadd: response.data.titleadd,
-                countValues: response.data.countValues,
-                valuesNames: response.data.valuesNames,
-                isEdit:response.data.isEdit,});
-            
-          })
-          .catch(function (error) {
-            console.log(error);
-          })*/
+        
           if (this.AuthHelper.loggedIn()) {
             const confirm = this.AuthHelper.getConfirm();
             if (confirm) {
@@ -46,28 +34,45 @@ class Company extends Component {
         }
       }         
 
-      delete(id){axios.post('http://192.168.99.100:3000/delete/'+id)
+      delete(id){axios.post('http://localhost:8080/delete/'+id)
       .then(console.log('Deleted'))
       .catch(err => console.log(err))
     }
 
-GetCompany(){
-    this.socket.on('Company', (company) => {
-        console.log('good');
-        console.log(company);
-        if(company !== null)
-        this.setState({ values: company.values ,
-            title: company.title,
-            //titleadd: response.data.titleadd,
-            countValues: company.countValues,
-            valuesNames: company.valuesNames,
-            isEdit:company.isEdit,});
+async GetCompany(){
+    let result = await axios({
+        url: 'http://localhost:8080/graphql',
+        method: 'post',
+        data: { query:`
+                    {
+                        company {
+                            id
+                            name
+                        }
+                    }
+                    `}
+    },
+);
+const result2 = result.data.data.company;
+console.log('company ',result2)
+var array = [];
+//for(var i = 0; i < result2.length; i++)
+var i =0;
+result2.map((myvalue)=>
+{
+    array[i] = [];
+                    array[i][0] = myvalue.id;
+                    array[i][1] =myvalue.name;
+    i++;
+});
+        this.setState({ values: array
+            });
         
-      
-    });
 }
 
     render() {
+
+       
         console.log("render");
         return(
             <div>

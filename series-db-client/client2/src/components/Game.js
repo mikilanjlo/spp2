@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import AuthHelper from './auth/AuthHelper';
-import socketIOClient from 'socket.io-client';
-const endpoint = "http://localhost:8081";
+//import socketIOClient from 'socket.io-client';
+//const endpoint = "http://localhost:8081";
 class Game extends Component {
     constructor(props){
         super(props);
@@ -11,11 +11,11 @@ class Game extends Component {
             title: "",
             titleadd: "",
             countValues: 2,
-            valuesNames: [],
+            valuesNames: ["id","name","Company","price $"],
             isEdit:false};
                            
 
-            this.socket = socketIOClient(endpoint); 
+            //this.socket = socketIOClient(endpoint); 
     }
         
     AuthHelper = new AuthHelper();
@@ -32,20 +32,42 @@ class Game extends Component {
             }
         }
       }         
-      GetGames(){
-        this.socket.on('Games', (games) => {
-            console.log('good');
-            console.log(games);
-            if(games !== null)
-            this.setState({ values: games.values ,
-                title: games.title,
-                //titleadd: response.data.titleadd,
-                countValues: games.countValues,
-                valuesNames: games.valuesNames,
-                isEdit:games.isEdit,});
+    async  GetGames(){
+        let result = await axios({
+            url: 'http://localhost:8080/graphql',
+            method: 'post',
+            data: { query:`
+                        {
+                            games {
+                                id
+                                name
+                                price
+                                CompanyName
+                            }
+                        }
+                        `}
+        },
+    );
+    const result2 = result.data.data.games;
+    console.log('getgames');
+    console.log(result2);
+    var array = [];
+    //for(var i = 0; i < result2.length; i++)
+    var i =0;
+    result2.map((myvalue)=>
+    {
+        array[i] = [];
+                        array[i][0] = myvalue.id;
+                        array[i][1] =myvalue.name;
+                        array[i][2] =myvalue.CompanyName//companyName; //GetCompany(result[i].id);
+                        array[i][3] =myvalue.price;
+        i++;
+    });
+            this.setState({ values: array
+                });
             
           
-        });
+        
     }
                
     render() {

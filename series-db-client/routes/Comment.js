@@ -15,8 +15,8 @@ class Comment{
     Add(comment){
 
         let message = '';
-        let name = comment.content;
-        let game_id= comment.game_id;
+        let name = comment.name;
+        let game_id= comment.gamename;
 
       
 
@@ -49,7 +49,7 @@ class Comment{
 
     Edit(comment){
         let Id = comment.id;
-        let name = comment.content;
+        let name = comment.name;
 
         let query = "UPDATE comment SET name = '" + name + "' WHERE id = '" + Id + "'";
         let result=db.query(query)

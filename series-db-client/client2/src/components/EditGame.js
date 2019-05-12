@@ -18,7 +18,7 @@ class EditGame extends Component {
          this.onChangeGamePrice = this.onChangeGamePrice.bind(this);
          this.onChangeGameCompany= this.onChangeGameCompany.bind(this);
          this.onSubmit = this.onSubmit.bind(this);
-         this.socket = socketIOClient(endpoint); 
+         //this.socket = socketIOClient(endpoint); 
     }
         
     AuthHelper = new AuthHelper();
@@ -60,11 +60,22 @@ class EditGame extends Component {
 
 
         let id = this.props.match.params.id;
-        const obj = {
-            id:id,
-            price: this.state.Price,
-        };
-        this.socket.emit('edit Games',obj);
+        axios({
+            url: 'http://localhost:8080/graphql',
+            method: 'post',
+            data: {
+                query: `
+      mutation editGame($id: String, $price: String){
+  editGame(id: $id, price: $price,){
+    id
+                                name
+                                price
+                                CompanyName
+  }
+}
+      `,variables:{id: this.props.match.params.id, price: this.state.Price},}
+
+        });
         this.setState({edited : true,});
     }
 

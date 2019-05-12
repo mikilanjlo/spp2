@@ -3,7 +3,6 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import AuthHelper from './auth/AuthHelper';
 import socketIOClient from 'socket.io-client';
-const endpoint = "http://localhost:8081";
 class AddGame extends Component {
     constructor(props){
         super(props);
@@ -18,7 +17,7 @@ class AddGame extends Component {
          this.onChangeGamePrice = this.onChangeGamePrice.bind(this);
          this.onChangeGameCompany= this.onChangeGameCompany.bind(this);
          this.onSubmit = this.onSubmit.bind(this);
-         this.socket = socketIOClient(endpoint); 
+         //this.socket = socketIOClient(endpoint); 
     }
         
     AuthHelper = new AuthHelper();
@@ -57,13 +56,22 @@ class AddGame extends Component {
     onSubmit(e) {
         e.preventDefault();
 
-        const obj = {
-            name: this.state.Name,
-            price: this.state.Price,
-            company_id: this.state.Company,
-        };
-        console.log(obj);
-        this.socket.emit('add Games',obj);
+        axios({
+            url: 'http://localhost:8080/graphql',
+            method: 'post',
+            data: {
+                query: `
+      mutation createGame($name: String, $price: String, $CompanyName: String){
+  createGame(name: $name, price: $price, CompanyName: $CompanyName ){
+    id
+                                name
+                                price
+                                CompanyName
+  }
+}
+      `,variables:{name: this.state.Name, price: this.state.Price, CompanyName: this.state.Company},}
+
+        });
         this.setState({created : true,});
     }
 

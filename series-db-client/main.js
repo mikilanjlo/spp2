@@ -1,17 +1,19 @@
 const express = require('express');
+var app = express();
 const mysql = require('sync-mysql');
 const bodyParser = require('body-parser');
-const fileUpload = require('express-fileupload');
+
 var expressValidator = require('express-validator');
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const exjwt = require('express-jwt');
-const http = require('http');
-const socketIO = require('socket.io');
+const { graphqlExpress, graphiqlExpress } = require('apollo-server-express');
+const schema = require('./routes/schema');
+
 
 const fs = require('fs');
 
-var app = express();
+
 app.set('view engine', 'ejs');
 const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
@@ -47,7 +49,7 @@ const connectionLog = 'MySql database was connected.';
 
 
 
-app.use(fileUpload()); // configure fileupload
+
 app.use(cors());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -66,6 +68,7 @@ const db = new mysql ({
     password: 'root',
     database: 'series_db'
 });
+global.db = db;
 /*
 db.connect((err) => {
     if (err) {
@@ -111,151 +114,18 @@ app.use(expressValidator({
 let m_company = new Company();
 let m_game =  new Game();
 let m_comment = new Comment();
-/*
-app.get('/', function(req, res){
-		m_object = new Company();
-		getCompanyPage(req, res);
-	});
-app.get('/Games', function(req, res){
-		m_object = new Game();
-		getGamePage(req, res);
-	});
-app.get('/Comments', function(req, res){
-		m_object = new Comment();
-		getCommentsPage(req, res);
-    });
-app.get('/:id', function(req, res){
-		m_object = new Company();
-		m_object.GetWithId(req,res);
-    });
-app.get('/Games:id', function(req, res){
-		m_object = new Game();
-		m_object.GetWithId(req,res);
-	});
 
-app.get('/Games/add',function(req, res){ m_game.AddPage(req,res);});
-app.get('/Comments/add',function(req, res){ m_comment.AddPage(req,res);});
-app.get('/add',function(req, res){ m_company.AddPage(req,res);});
-
-app.get('/delete/:id', function(req, res){m_company.Delete(req, res);});
-app.get('/Games/delete/:id', function(req, res){m_game.Delete(req, res);});
-app.get('/Comments/delete/:id', function(req, res){m_comment.Delete(req, res);});
-
-app.post('/Games/add',function(req, res){ m_game.Add(req,res);});
-app.post('/Comments/add',function(req, res){ m_comment.Add(req,res);});
-app.post('/add',function(req, res){ m_company.Add(req,res);});
-
-app.get('/Games/edit/:id',function(req, res){ m_game.EditPage(req,res);});
-app.get('/Comments/edit/:id',function(req, res){ m_comment.EditPage(req,res);});
-app.get('/edit/:id',function(req, res){ m_company.EditPage(req,res);});
-
-app.post('/Games/edit/:id',function(req, res){ m_game.Edit(req,res);});
-app.post('/Comments/edit/:id',function(req, res){ m_comment.Edit(req,res);});
-app.post('/edit/:id',function(req, res){ m_company.Edit(req,res);});
-
-app.get('/sign_in',function(req, res){ m_user.SignInPage(req,res);});
-app.post('/sign_in',function(req, res){ m_user.SignIn(req,res);});
-app.get('/sign_out',function(req, res){ m_user.SignOut(req,res);});
-*/
 app.post('/login', login);
 app.post('/register', register);
 
-global.db = db;
+// The GraphQL endpoint
+app.use('/graphql', bodyParser.json(), graphqlExpress({ schema }));
 
+// GraphiQL, a visual editor for queries
+app.use('/graphiql', graphiqlExpress({ endpointURL: '/graphql' }));
 
-const server = http.createServer(app);
-const io = socketIO(server);
-var count = 0;
-io.on('connection', socket => {
-    console.log('User connected')
-    var socketID = socket.conn.id;
-    console.log('Connection:', socketID);
-    //console.log('function:',getCompanyPage());
-    socket.emit('Company',getCompanyPage());
-    socket.emit('Games', getGamePage());
-    socket.emit('Comments', getCommentsPage());
-
-
-
-    socket.on('get Company',() =>{
-        socket.emit('Company', getCompanyPage());
-    });
-
-    socket.on('get Games',() =>{
-        socket.emit('Games', getGamePage());
-    });
-
-    socket.on('get Comments',() =>{
-        socket.emit('Comments', getCommentsPage());
-    });
-
-
-
-
-
-    socket.on('add Company',(company) =>{
-        m_company.Add(company);
-        socket.emit('Company', getCompanyPage());
-    });
-
-    socket.on('add Games',(games) =>{
-        m_game.Add(games);
-        socket.emit('Games', getGamesPage());
-    });
-
-    socket.on('add Comments',(comments) =>{
-        m_comment.Add(comments);
-        socket.emit('Comments', getCommentsPage());
-    });
-
-
-
-
-
-    socket.on('edit Games',(games) =>{
-        m_game.Edit(games);
-        socket.emit('Games', getGamesPage());
-    });
-
-    socket.on('edit Comments',(comments) =>{
-        m_comment.Edit(comments);
-        socket.emit('Comments', getCommentsPage());
-    });
-    
-
-    socket.on('get reader',() =>{
-        count++;
-        socket.emit('reader', count);
-    });
-
-
-
-
-
-    socket.on('delete Company',(id) =>{
-        m_company.Delete(id);
-        socket.emit('Company', getCompanyPage());
-    });
-
-    socket.on('delete Games',(id) =>{
-        m_game.Delete(id);
-        socket.emit('Games', getGamesPage());
-    });
-
-    socket.on('delete Comments',(id) =>{
-        m_comment.Delete(id);
-        socket.emit('Comments', getCommentsPage());
-    });
-    
-
-    io.sockets.on('disconnect', () =>{
-        console.log('user disconnected');
-        io.sockets.removeAllListners();
-    })
-});
 
 app.listen(port, () => {
     console.log(serverLog);
 });;
 
-server.listen(8081, () => console.log(`Listening on port 3001`));

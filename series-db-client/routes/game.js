@@ -5,11 +5,11 @@ class Game{
 
 
     Add(game){
-
+        console.log('addgame ',game);
         let message = '';
         let name = game.name;
         let price = game.price;
-        let company_id= game.company_id;
+        let company_id= game.CompanyName;
 
         let sql = "SELECT * FROM game WHERE name = '" + name + "'";
 
@@ -26,14 +26,13 @@ class Game{
 
 
     Edit(game){
+        console.log('editgame ',game);
         let Id = game.id;
         let price = game.price;
 
         let query = "UPDATE game SET price = '" + price + "' WHERE id = '" + Id + "'";
         var result =db.query(query)
-            if (err) {
-                return res.status(500).send(err);
-            }
+            
         
     }
 
