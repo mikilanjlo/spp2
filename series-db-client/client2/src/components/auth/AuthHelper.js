@@ -2,10 +2,10 @@ import decode from 'jwt-decode'
 
 export default class AuthHelper {
   constructor(domain) {
-    this.domain = domain || "http://192.168.99.100:3000"; // API server domain
+    this.domain = domain || "http://localhost:8080"; // API server domain
   }
   login = (login, password) => {
-    return this.fetch(`http://192.168.99.100:3000/login`, {
+    return this.fetch(`http://localhost:8080/login`, {
       method: "POST",
       body: JSON.stringify({
         login,

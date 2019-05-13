@@ -47,7 +47,7 @@ class Register extends Component {
             }
 
 
-            axios.post('http://192.168.99.100:3000/register', obj)
+            axios.post('http://localhost:8080/register', obj)
                 .then((response) => {
                     console.log(response.data)
                     this.statusCode = response.status

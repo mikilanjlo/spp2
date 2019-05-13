@@ -46,7 +46,7 @@ class Company extends Component {
         }
       }         
 
-      delete(id){axios.post('http://192.168.99.100:3000/delete/'+id)
+      delete(id){axios.post('http://localhost:8080/delete/'+id)
       .then(console.log('Deleted'))
       .catch(err => console.log(err))
     }

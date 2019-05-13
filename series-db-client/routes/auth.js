@@ -28,7 +28,7 @@ module.exports = {
     login: (req, res) => {
         let login = req.body.login;
         let password = req.body.password;
-
+        console.log('login',login);
         if (login !== undefined && password !== undefined) {
             let query = "SELECT * FROM users WHERE login = '" + login + "'";
             db.query(query, (err, result) => {
